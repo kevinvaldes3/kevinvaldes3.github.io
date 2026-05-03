@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevin Valdés — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #121212;
+    --surface: #1a1a1a;
+    --surface2: #222222;
+    --text: #eaeaea;
+    --muted: #888;
+    --primary: #16bbc7;
+    --primary-dim: rgba(22,187,199,0.12);
+    --secondary: #004e64;
+    --accent: #fca311;
+    --accent-dim: rgba(252,163,17,0.12);
+    --border: rgba(255,255,255,0.08);
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(18,18,18,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--primary);
+    color: #0a0a0a !important;
+    padding: 0.45rem 1.2rem;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .nav-cta:hover { background: #1ad4e0; color: #0a0a0a !important; }
+
+  /* -- HERO -- */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.45;
+  }
+
+  .hero-bg-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(22,187,199,0.06) 0%, transparent 65%);
+    top: -150px; right: -200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-bg-glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(252,163,17,0.04) 0%, transparent 65%);
+    bottom: -50px; left: -150px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-content { max-width: 780px; position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-dim);
+    border: 1px solid rgba(22,187,199,0.25);
+    color: var(--primary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-greeting {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-greeting em {
+    font-style: normal;
+    color: var(--primary);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-weight: 400;
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    line-height: 1.9;
+  }
+
+  .hero-sub strong { color: var(--text); font-weight: 400; }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat span:first-child {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .hero-stat span:last-child {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #0a0a0a;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: #1ad4e0; transform: translateY(-1px); }
+
+  .btn-accent {
+    background: var(--accent);
+    color: #0a0a0a;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-accent:hover { background: #fdb533; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    font-weight: 400;
+    line-height: 1.85;
+  }
+
+  .section-header { margin-bottom: 3.5rem; }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ─── SOBRE MÍ ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-avatar {
+    width: 23rem;
+    /* height: 280px; */
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--secondary), #005a73);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--primary);
+    border: 1px solid rgba(22,187,199,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(22,187,199,0.03) 10px,
+      rgba(22,187,199,0.03) 11px
+    );
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    line-height: 1.9;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+
+  .tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.82rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-weight: 400;
+  }
+
+  .tag.primary {
+    background: var(--primary-dim);
+    border-color: rgba(22,187,199,0.25);
+    color: var(--primary);
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(22,187,199,0.3);
+    transform: translateY(-3px);
+  }
+
+  .skill-card-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+
+  .skill-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.85rem;
+  }
+
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skill-list li {
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-list li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+  }
+
+  /* ─── PROYECTOS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .project-card:hover { border-color: rgba(22,187,199,0.3); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card.featured {
+    grid-column: span 2;
+    border-color: rgba(252,163,17,0.2);
+  }
+
+  .project-card.featured::before { background: var(--accent); opacity: 1; }
+
+  .project-tag {
+    display: inline-block;
+    background: var(--primary-dim);
+    border: 1px solid rgba(22,187,199,0.2);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.03em;
+  }
+
+  .project-tag.accent {
+    background: var(--accent-dim);
+    border-color: rgba(252,163,17,0.25);
+    color: var(--accent);
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.85rem;
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .project-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .project-features li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .project-features li::before {
+    content: '→';
+    color: var(--primary);
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    font-weight: 400;
+  }
+
+  .project-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.7rem; }
+
+  /* ─── SERVICIOS ─── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .service-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .service-card:hover {
+    border-color: rgba(22,187,199,0.3);
+    transform: translateY(-3px);
+  }
+
+  .service-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--secondary);
+    border: 1px solid rgba(22,187,199,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 1.25rem;
+    color: var(--primary);
+  }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.01em;
+  }
+
+  .service-card p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* ─── PROCESO ─── */
+  .process-steps {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 24px; right: 24px;
+    height: 1px;
+    background: linear-gradient(to right, var(--primary), transparent);
+    opacity: 0.3;
+  }
+
+  .process-step {
+    flex: 1;
+    text-align: center;
+    padding: 0 1rem;
+    position: relative;
+  }
+
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 2px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 auto 1.25rem;
+  }
+
+  .process-step h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ─── CTA FREELANCE ─── */
+  .cta-block {
+    background: #0d1f26;
+    border: 1px solid rgba(22,187,199,0.18);
+    border-radius: 24px;
+    padding: 5rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(22,187,199,0.1) 0%, transparent 65%);
+    top: -180px; right: -150px;
+    pointer-events: none;
+  }
+
+  .cta-block::after {
+    content: '';
+    position: absolute;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(252,163,17,0.07) 0%, transparent 65%);
+    bottom: -140px; left: -100px;
+    pointer-events: none;
+  }
+
+  .cta-label {
+    display: inline-block;
+    background: rgba(22,187,199,0.1);
+    border: 1px solid rgba(22,187,199,0.25);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.1rem;
+    border-radius: 100px;
+    margin-bottom: 1.75rem;
+  }
+
+  .cta-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    color: #eaeaea;
+  }
+
+  .cta-block h2 span {
+    color: var(--primary);
+  }
+
+  .cta-block p {
+    color: rgba(234,234,234,0.6);
+    font-size: 1.05rem;
+    font-weight: 400;
+    max-width: 480px;
+    margin: 0 auto 2.75rem;
+    line-height: 1.85;
+  }
+
+  .cta-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.75rem;
+  }
+
+  .cta-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: rgba(234,234,234,0.55);
+    font-weight: 400;
+  }
+
+  .cta-feature-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-cta-main {
+    background: var(--accent);
+    color: #0a0a0a;
+    border: none;
+    padding: 1rem 2.25rem;
+    border-radius: 100px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(252,163,17,0);
+  }
+
+  .btn-cta-main:hover {
+    background: #fdb533;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(252,163,17,0.25);
+  }
+
+  .btn-cta-ghost {
+    background: transparent;
+    color: rgba(234,234,234,0.7);
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 1rem 2.25rem;
+    border-radius: 100px;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+
+  .btn-cta-ghost:hover {
+    border-color: rgba(22,187,199,0.45);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  /* ─── BLOG ─── */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .blog-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+
+  .blog-card:hover {
+    border-color: rgba(22,187,199,0.3);
+    transform: translateY(-3px);
+  }
+
+  .blog-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.03em;
+  }
+
+  .blog-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .blog-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .read-more {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  /* ─── CONTACTO ─── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--primary);
+  }
+
+  .form-group textarea { min-height: 120px; }
+
+  .contact-info { padding-top: 0.5rem; }
+
+  .contact-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .contact-info p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.85;
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.92rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: rgba(22,187,199,0.3);
+    transform: translateX(4px);
+  }
+
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .contact-link span { font-weight: 400; }
+  .contact-link small { display: block; font-size: 0.78rem; color: var(--muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  footer .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 7rem 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-avatar { width: 200px; height: 200px; font-size: 2.8rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .process-steps { flex-direction: column; gap: 2rem; }
+    .process-steps::before { display: none; }
+    .project-card.featured { grid-column: span 1; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .cta-block { padding: 2.5rem 1.5rem; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Kevin V.</a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#skills">Habilidades</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#contact" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-left:clamp(1.5rem,6vw,7rem);">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Disponible para proyectos</div>
+    <h1 class="hero-greeting">
+      Hola, soy<br>
+      <em>Kevin Valdés</em>
+    </h1>
+    <p class="hero-sub">
+      Construyo aplicaciones web modernas con <strong>Angular y .NET</strong>
+      enfocadas en resolver problemas reales y generar resultados concretos.<br>
+      No solo programo — entiendo el negocio detrás del software.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span>+6</span>
+        <span>años de experiencia</span>
+      </div>
+      <div class="hero-stat">
+        <span>10+</span>
+        <span>sistemas en producción</span>
+      </div>
+      <div class="hero-stat">
+        <span>3</span>
+        <span>stacks dominados</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">Ver proyectos →</a>
+      <a href="#services" class="btn-accent">Trabajemos juntos</a>
+      <a href="#contact" class="btn-ghost">Contacto</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SOBRE MÍ -->
+<section id="about">
+  <div class="about-grid fade-up">
+    <div>
+      <!-- <div class="about-avatar">KV</div> -->
+      <img src="perfil.png" alt="kevin valdes" class="about-avatar">
+    </div>
+    <div class="about-text">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">Más que código.<br>Soluciones reales.</h2>
+      <p>
+        Soy desarrollador Full Stack con más de <strong>6 años creando aplicaciones web robustas y escalables</strong>. Actualmente trabajo como desarrollador semi senior, participando en el diseño y desarrollo de sistemas reales con Angular, .NET y SQL Server.
+      </p>
+      <p>
+        Mi diferencia es que <strong>no solo ejecuto tareas</strong> — entiendo el problema de negocio y propongo soluciones que realmente impactan. He trabajado en sistemas de gestión logística, ventas, reportería y automatización de procesos.
+      </p>
+      <p>
+        También tengo experiencia con <strong>Azure, APIs REST, Git y metodologías ágiles</strong>. Trabajo cómodo en equipos o de forma autónoma, dependiendo del proyecto.
+      </p>
+      <div class="about-tags">
+        <span class="tag primary">Angular</span>
+        <span class="tag primary">.NET 8</span>
+        <span class="tag primary">SQL Server</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Azure</span>
+        <span class="tag">PrimeNG</span>
+        <span class="tag">APIs REST</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-up">
+    <p class="section-label">Stack técnico</p>
+    <h2 class="section-title">Habilidades</h2>
+    <p class="section-desc">Tecnologías con las que construyo día a día — no de curso, de proyectos reales.</p>
+  </div>
+  <div class="skills-grid fade-up">
+    <div class="skill-card">
+      <div class="skill-card-icon">◈</div>
+      <h4>Frontend</h4>
+      <ul class="skill-list">
+        <li>Angular 17+</li>
+        <li>PrimeNG</li>
+        <li>TypeScript</li>
+        <li>HTML / CSS / SCSS</li>
+        <li>RxJS</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">⬡</div>
+      <h4>Backend</h4>
+      <ul class="skill-list">
+        <li>.NET 8 / ASP.NET Core</li>
+        <li>APIs REST</li>
+        <li>Entity Framework</li>
+        <li>.NET MAUI</li>
+        <li>Autenticación JWT</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">◧</div>
+      <h4>Base de datos</h4>
+      <ul class="skill-list">
+        <li>SQL Server</li>
+        <li>Procedimientos almacenados</li>
+        <li>Diseño de esquemas</li>
+        <li>Optimización de consultas</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">◉</div>
+      <h4>DevOps / Herramientas</h4>
+      <ul class="skill-list">
+        <li>Git / GitHub</li>
+        <li>Azure</li>
+        <li>Postman</li>
+        <li>Docker (básico)</li>
+        <li>Metodologías ágiles</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROYECTOS -->
+<section id="projects">
+  <div class="section-header fade-up">
+    <p class="section-label">Portafolio</p>
+    <h2 class="section-title">Proyectos</h2>
+    <p class="section-desc">Sistemas que resuelven problemas reales — no demos ni tutoriales.</p>
+  </div>
+
+  <div class="projects-grid fade-up">
+
+    <!-- Proyecto destacado -->
+    <div class="project-card featured">
+      <span class="project-tag accent">★ Proyecto destacado</span>
+      <h3 class="project-title">Dashboard de Ventas Inteligente</h3>
+      <p class="project-desc">
+        Panel de control con analítica en tiempo real, diseñado para que dueños de negocio tomen decisiones rápidas sin necesidad de saber de tecnología. Construido con Angular + PrimeNG + .NET.
+      </p>
+      <ul class="project-features">
+        <li>Gráficas interactivas con filtros por fecha, producto y categoría</li>
+        <li>Tabla de transacciones con búsqueda y exportación a Excel/PDF</li>
+        <li>Modales de detalle con KPIs por venta</li>
+        <li>Diseño responsivo y modo oscuro desde el día uno</li>
+        <li>API REST con autenticación JWT</li>
+      </ul>
+      <div class="project-tech">
+        <span class="tech-pill">Angular 17</span>
+        <span class="tech-pill">PrimeNG</span>
+        <span class="tech-pill">.NET 8</span>
+        <span class="tech-pill">SQL Server</span>
+        <span class="tech-pill">Chart.js</span>
+      </div>
+      <a href="#contact" class="project-link">Ver demo o solicitar acceso →</a>
+    </div>
+
+    <!-- Tiquetes -->
+    <div class="project-card">
+      <span class="project-tag">Sistema empresarial</span>
+      <h3 class="project-title">Sistema de Venta de Tiquetes — Transporte Acuático</h3>
+      <p class="project-desc">
+        Plataforma web para gestión y venta de tiquetes en operaciones de transporte acuático. Optimiza la operación y mejora la toma de decisiones en tiempo real.
+      </p>
+      <ul class="project-features">
+        <li>Control de disponibilidad de embarcaciones por horario</li>
+        <li>Gestión de pasajeros y asignación de cupos</li>
+        <li>Reportes de ventas diarias / semanales / mensuales</li>
+        <li>Roles de usuario: cajero, supervisor, administrador</li>
+      </ul>
+      <div class="project-tech">
+        <span class="tech-pill">Angular</span>
+        <span class="tech-pill">.NET</span>
+        <span class="tech-pill">SQL Server</span>
+        <span class="tech-pill">PrimeNG</span>
+      </div>
+      <a href="#contact" class="project-link">Solicitar más detalles →</a>
+    </div>
+
+    <!-- Horarios -->
+    <div class="project-card">
+      <span class="project-tag">Sistema empresarial</span>
+      <h3 class="project-title">Gestión de Horarios y Disponibilidad</h3>
+      <p class="project-desc">
+        Módulo de administración para gestionar horarios de lanchas, control de ocupación y visualización de disponibilidad en tiempo real.
+      </p>
+      <ul class="project-features">
+        <li>CRUD completo de horarios y rutas</li>
+        <li>Control de capacidad máxima por embarcación</li>
+        <li>Calendario visual de disponibilidad</li>
+        <li>Alertas de sobrecupo y cierre automático</li>
+      </ul>
+      <div class="project-tech">
+        <span class="tech-pill">Angular</span>
+        <span class="tech-pill">.NET API</span>
+        <span class="tech-pill">SQL Server</span>
+      </div>
+      <a href="#contact" class="project-link">Solicitar más detalles →</a>
+    </div>
+
+    <!-- API -->
+    <div class="project-card">
+      <span class="project-tag">Open source / Personal</span>
+      <h3 class="project-title">API REST Template — .NET 8</h3>
+      <p class="project-desc">
+        Plantilla base para APIs escalables con autenticación, manejo de errores, paginación y buenas prácticas de arquitectura limpia. Lista para usar en producción.
+      </p>
+      <ul class="project-features">
+        <li>Autenticación JWT con refresh tokens</li>
+        <li>Paginación y filtros genéricos</li>
+        <li>Manejo centralizado de errores y logging</li>
+        <li>Documentación con Swagger/OpenAPI</li>
+      </ul>
+      <div class="project-tech">
+        <span class="tech-pill">.NET 8</span>
+        <span class="tech-pill">Entity Framework</span>
+        <span class="tech-pill">JWT</span>
+        <span class="tech-pill">SQL Server</span>
+      </div>
+      <a href="#contact" class="project-link">Ver repositorio →</a>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SERVICIOS -->
+<section id="services">
+  <div class="section-header fade-up">
+    <p class="section-label">¿Cómo puedo ayudarte?</p>
+    <h2 class="section-title">De la idea al sistema<br>funcionando.</h2>
+    <p class="section-desc">No solo desarrollo software, ayudo a transformar ideas en soluciones digitales que generan impacto real.</p>
+  </div>
+
+  <div class="services-grid fade-up">
+    <div class="service-card">
+      <div class="service-icon">◈</div>
+      <h3>Sistemas web a medida</h3>
+      <p>Aplicaciones Angular + .NET adaptadas a tu proceso de negocio. Escalables desde el día uno.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⬡</div>
+      <h3>APIs y backend</h3>
+      <p>APIs REST robustas, documentadas y seguras. Integraciones con sistemas de terceros.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">◉</div>
+      <h3>Dashboards y reportes</h3>
+      <p>Paneles de control con datos reales. Para que tu equipo tome decisiones en segundos, no en días.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">◧</div>
+      <h3>Automatización de procesos</h3>
+      <p>Identifico tareas manuales y las convierto en flujos automáticos. Tu equipo gana tiempo valioso.</p>
+    </div>
+  </div>
+
+  <!-- Proceso -->
+  <div style="margin-top: 4rem;" class="fade-up">
+    <p class="section-label" style="text-align:center; margin-bottom: 2.5rem;">Cómo trabajo</p>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h4>Entender el problema</h4>
+        <p>Antes de escribir código, entiendo qué necesitas resolver y por qué.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h4>Proponer la solución</h4>
+        <p>Te presento un plan claro: qué se construye, cómo y en cuánto tiempo.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h4>Construir y validar</h4>
+        <p>Desarrollo iterativo con demos frecuentes. Sin sorpresas al final.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h4>Entregar y acompañar</h4>
+        <p>Entrego un sistema que funciona. Y te quedo disponible si algo falla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CTA FREELANCE -->
+<section style="max-width:1100px; margin:0 auto; padding: 2rem 3rem 5rem;">
+  <div class="cta-block fade-up">
+    <span class="cta-label">Trabajo freelance & empleo</span>
+    <h2>¿Tienes un sistema que<br><span>mejorar o construir</span>?</h2>
+    <p>Cuéntame qué necesitas. Sin compromisos. Si puedo ayudarte, te digo cómo — y si no, te digo quién puede.</p>
+    <div class="cta-features">
+      <div class="cta-feature"><div class="cta-feature-dot"></div>Respuesta en menos de 24h</div>
+      <div class="cta-feature"><div class="cta-feature-dot"></div>Primera llamada sin costo</div>
+      <div class="cta-feature"><div class="cta-feature-dot"></div>Presupuesto claro desde el inicio</div>
+    </div>
+    <div class="cta-actions">
+      <a href="#contact" class="btn-cta-main">Hablemos ahora →</a>
+      <a href="#projects" class="btn-cta-ghost">Ver proyectos primero</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-header fade-up">
+    <p class="section-label">Ideas & contenido</p>
+    <h2 class="section-title">Lo que he aprendido<br>y comparto.</h2>
+    <p class="section-desc">Artículos técnicos y reflexiones sobre desarrollo, arquitectura y trabajo en equipo.</p>
+  </div>
+
+  <div class="blog-grid fade-up">
+    <div class="blog-card">
+      <p class="blog-meta">Angular • 5 min lectura</p>
+      <h3>Cómo estructurar un proyecto Angular para que escale de verdad</h3>
+      <p>La estructura de carpetas que uso en todos mis proyectos y por qué funciona mejor que la opción por defecto del CLI.</p>
+      <span class="read-more">Próximamente →</span>
+    </div>
+    <div class="blog-card">
+      <p class="blog-meta">.NET • 7 min lectura</p>
+      <h3>APIs REST en .NET 8: las prácticas que nadie te enseña en el tutorial</h3>
+      <p>Manejo de errores, paginación, autenticación JWT y logging. Todo lo que necesitas para una API lista para producción.</p>
+      <span class="read-more">Próximamente →</span>
+    </div>
+    <div class="blog-card">
+      <p class="blog-meta">Negocio • 4 min lectura</p>
+      <h3>Por qué el desarrollador que entiende el negocio siempre consigue trabajo</h3>
+      <p>Reflexión personal sobre cómo pensar como el cliente te diferencia de cualquier otro dev con el mismo stack.</p>
+      <span class="read-more">Próximamente →</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACTO -->
+<section id="contact">
+  <div class="contact-grid fade-up">
+    <div>
+      <p class="section-label">Contacto</p>
+      <h2 class="section-title">Trabajemos juntos.</h2>
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="tu@correo.com">
+        </div>
+        <div class="form-group">
+          <label>¿En qué puedo ayudarte?</label>
+          <select>
+            <option value="">Selecciona una opción</option>
+            <option>Quiero contratarte (empleo)</option>
+            <option>Tengo un proyecto freelance</option>
+            <option>Quiero mejorar un sistema existente</option>
+            <option>Solo quiero conocernos</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cuéntame más</label>
+          <textarea placeholder="Describe brevemente tu proyecto o lo que necesitas..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:fit-content;" onclick="alert('¡Gracias! Conéctame el formulario a tu backend .NET 😉')">Enviar mensaje →</button>
+      </div>
+    </div>
+
+    <div class="contact-info">
+      <h3>Otras formas de contactarme</h3>
+      <p>Prefiero responder rápido. Por WhatsApp o LinkedIn generalmente contesto el mismo día.</p>
+      <div class="contact-links">
+        <a href="kevinvaldes3@gmail.com" class="contact-link">
+          <div class="contact-link-icon">@</div>
+          <div>
+            <span>Email</span>
+            <small>kevinvaldes3@gmail.com</small>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/kevinvaldesh/" target="_blank" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          <div>
+            <span>LinkedIn</span>
+            <small>linkedin.com/in/kevin-valdes</small>
+          </div>
+        </a>
+        <a href="https://wa.me/573043433695" target="_blank" class="contact-link">
+          <div class="contact-link-icon">W</div>
+          <div>
+            <span>WhatsApp</span>
+            <small>Respondo en menos de 2 horas</small>
+          </div>
+        </a>
+        <a href="https://github.com/tu-usuario" target="_blank" class="contact-link">
+          <div class="contact-link-icon">G</div>
+          <div>
+            <span>GitHub</span>
+            <small>Ver código y proyectos</small>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Kevin V.</span>
+  <p>Construido con código real · 2024 · Bogotá, Colombia</p>
+  <p style="color:var(--primary); font-size:0.85rem;">"Construyo soluciones, no solo código."</p>
+</footer>
+
+<script>
+  // Canvas de partículas
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles;
+    let mouse = { x: -9999, y: -9999 };
+    const PRIMARY = '22,187,199';
+    const ACCENT  = '252,163,17';
+    const COUNT   = 70;
+    const MAX_DIST = 140;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    function createParticles() {
+      particles = Array.from({ length: COUNT }, () => ({
+        x: rand(0, W), y: rand(0, H),
+        vx: rand(-0.25, 0.25), vy: rand(-0.25, 0.25),
+        r: rand(1.2, 2.5),
+        color: Math.random() < 0.12 ? ACCENT : PRIMARY,
+        alpha: rand(0.3, 0.7)
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < MAX_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(${a.color},${(1 - dist/MAX_DIST) * 0.16})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+        const p = particles[i];
+        const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+        const mdist = Math.sqrt(mdx*mdx + mdy*mdy);
+        if (mdist < 180) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(${PRIMARY},${(1 - mdist/180) * 0.4})`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      }
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},${p.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    function update() {
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+      }
+    }
+
+    function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+    window.addEventListener('resize', () => { resize(); createParticles(); });
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    resize();
+    createParticles();
+    loop();
+  })();
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
